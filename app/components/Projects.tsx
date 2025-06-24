@@ -9,7 +9,7 @@ import ImageCarousel from "./ImageCarousel"
 
 export default function Projects() {
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation()
-  // Refs for per-category animation (optional – can be used later)
+  // Refs for per-category animation
   const categoryRefs = useRef<(HTMLElement | null)[]>([])
 
   const projects = [
@@ -145,14 +145,14 @@ export default function Projects() {
         {
           title: "Scratch Programming Classes",
           description: "Interactive coding workshops for kids aged 8-14 using Scratch visual programming",
-          image: "/placeholder.svg?height=200&width=300",
+          image: "/images/scratch-programming.png",
           skills: ["Scratch", "Teaching", "Curriculum Design", "Child Psychology"],
           testimonial: "95% of students continued with advanced programming",
         },
         {
           title: "Arduino Internship Program",
           description: "Comprehensive 8-week internship program covering embedded systems fundamentals",
-          image: "/placeholder.svg?height=200&width=300",
+          image: "/images/arduino-internship.png",
           skills: ["Arduino", "Electronics", "Project Management", "Mentoring"],
           testimonial: "20+ interns successfully placed in tech companies",
         },
@@ -233,13 +233,22 @@ export default function Projects() {
 
                         <div className="flex gap-3">
                           {project.liveDemo && (
-                            <Button size="sm" className="flex-1">
+                            <Button
+                              size="sm"
+                              className="flex-1"
+                              onClick={() => window.open(project.liveDemo, "_blank")}
+                            >
                               <ExternalLink className="h-4 w-4 mr-2" />
                               Live Demo
                             </Button>
                           )}
                           {project.github && (
-                            <Button size="sm" variant="outline" className="flex-1">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1"
+                              onClick={() => window.open(project.github, "_blank")}
+                            >
                               <Github className="h-4 w-4 mr-2" />
                               Code
                             </Button>
