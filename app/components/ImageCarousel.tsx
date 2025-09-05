@@ -42,20 +42,22 @@ export default function ImageCarousel({ images, alt, autoRotate = true, interval
 
   if (images.length === 1) {
     return (
-      <img
-        src={images[0] || "/placeholder.svg"}
-        alt={alt}
-        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-      />
+      <div className="w-full h-full bg-gray-100 flex items-center justify-center overflow-hidden">
+        <img
+          src={images[0] || "/placeholder.svg"}
+          alt={alt}
+          className="max-w-full max-h-full object-contain hover:scale-105 transition-transform duration-300"
+        />
+      </div>
     )
   }
 
   return (
-    <div className="relative group">
+    <div className="relative group w-full h-full bg-gray-100 flex items-center justify-center overflow-hidden">
       <img
         src={images[currentIndex] || "/placeholder.svg"}
         alt={`${alt} - Image ${currentIndex + 1}`}
-        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+        className="max-w-full max-h-full object-contain hover:scale-105 transition-transform duration-300"
       />
 
       {/* Navigation Arrows */}

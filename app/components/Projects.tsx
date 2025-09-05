@@ -108,6 +108,28 @@ export default function Projects() {
           testimonial: "Reduced fire response time by 75% with zero false positives",
         },
         {
+          title: "Voice Controlled Smart Home Automation",
+          description:
+            "Voice-activated home automation system controlling appliances like fans, lamps, and radio through speech recognition and Arduino integration",
+          images: [
+            "/smart-home-automation-with-voice-control.jpg",
+            "/images/smart-home-1.jpg",
+            "/images/smart-home-2.jpg",
+          ],
+          skills: ["Arduino", "Voice Recognition", "Relay Modules", "Speech Processing", "Home Automation"],
+          github: "#",
+          testimonial: "Achieved 95% voice command accuracy with seamless appliance control",
+        },
+        {
+          title: "Smart Door Lock with RFID",
+          description:
+            "Secure door access control system using RFID technology with keyless entry, access logging, and remote monitoring capabilities",
+          images: ["/rfid-door-lock-system-with-arduino.jpg", "/images/rfid-door-1.jpg", "/images/rfid-door-2.jpg"],
+          skills: ["Arduino", "RFID", "Servo Motors", "Access Control", "Security Systems"],
+          github: "#",
+          testimonial: "Enhanced home security with 100% reliable access control and audit trail",
+        },
+        {
           title: "EV3 Robot",
           description:
             "Three different LEGO Mindstorms EV3 robot configurations: robotic arm manipulator, mobile rover, and walking quadruped - showcasing versatile robotics design and programming",
@@ -173,6 +195,7 @@ export default function Projects() {
     <section id="projects" className="py-20 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
+          ref={titleRef}
           className={`text-center mb-16 transition-all duration-1000 ${
             titleVisible ? "translate-x-0 opacity-100" : "translate-x-20 opacity-0"
           }`}
@@ -246,7 +269,7 @@ export default function Projects() {
                             <Button
                               size="sm"
                               variant="outline"
-                              className="flex-1"
+                              className="flex-1 bg-transparent"
                               onClick={() => window.open(project.github, "_blank")}
                             >
                               <Github className="h-4 w-4 mr-2" />

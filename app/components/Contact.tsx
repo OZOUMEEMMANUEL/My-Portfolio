@@ -1,38 +1,52 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useScrollAnimation } from "../hooks/useScrollAnimation"
+import { submitContactForm } from "../actions/contact"
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState<{
+    type: "success" | "error"
+    text: string
+  } | null>(null)
 
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation()
   const { ref: contentRef, isVisible: contentVisible } = useScrollAnimation()
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
-    // Reset form
-    setFormData({ name: "", email: "", subject: "", message: "" })
-  }
+  const handleSubmit = async (formData: FormData) => {
+    setIsSubmitting(true)
+    setSubmitMessage(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
+    try {
+      const result = await submitContactForm(formData)
+
+      if (result.success) {
+        setSubmitMessage({
+          type: "success",
+          text: result.message || "Message sent successfully!",
+        })
+        // Reset form
+        const form = document.getElementById("contact-form") as HTMLFormElement
+        form?.reset()
+      } else {
+        setSubmitMessage({
+          type: "error",
+          text: result.error || "Something went wrong. Please try again.",
+        })
+      }
+    } catch (error) {
+      setSubmitMessage({
+        type: "error",
+        text: "Network error. Please check your connection and try again.",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -133,7 +147,7 @@ export default function Contact() {
           <div className="bg-gray-50 p-8 rounded-2xl">
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">Send Me a Message</h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form id="contact-form" action={handleSubmit} className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -143,10 +157,9 @@ export default function Contact() {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
                     required
                     placeholder="Your full name"
+                    disabled={isSubmitting}
                   />
                 </div>
                 <div>
@@ -157,10 +170,9 @@ export default function Contact() {
                     type="email"
                     id="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     required
                     placeholder="your.email@example.com"
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -173,10 +185,9 @@ export default function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
                   required
                   placeholder="What's this about?"
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -187,17 +198,28 @@ export default function Contact() {
                 <Textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
                   required
                   rows={6}
                   placeholder="Tell me about your project or how I can help you..."
+                  disabled={isSubmitting}
                 />
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
+              {submitMessage && (
+                <div
+                  className={`p-4 rounded-lg ${
+                    submitMessage.type === "success"
+                      ? "bg-green-50 text-green-800 border border-green-200"
+                      : "bg-red-50 text-red-800 border border-red-200"
+                  }`}
+                >
+                  {submitMessage.text}
+                </div>
+              )}
+
+              <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                 <Send className="h-4 w-4 mr-2" />
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>
@@ -205,7 +227,7 @@ export default function Contact() {
 
         {/* Footer */}
         <div className="mt-20 pt-8 border-t border-gray-200 text-center">
-          <p className="text-gray-600">© 2024 Brown. Built with passion using Next.js and Tailwind CSS.</p>
+          <p className="text-gray-600">© 2025 Brown. Built with passion using Next.js and Tailwind CSS.</p>
         </div>
       </div>
     </section>

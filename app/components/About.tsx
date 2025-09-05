@@ -103,11 +103,11 @@ export default function About() {
                 <p className="text-gray-600 mb-6">Embedded Systems & Web Developer</p>
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div>
-                    <div className="text-2xl font-bold text-blue-600">15+</div>
+                    <div className="text-2xl font-bold text-blue-600">20+</div>
                     <div className="text-sm text-gray-600">Projects Completed</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-indigo-600">3+</div>
+                    <div className="text-2xl font-bold text-indigo-600">4+</div>
                     <div className="text-sm text-gray-600">Years Experience</div>
                   </div>
                 </div>
